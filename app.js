@@ -1,61 +1,56 @@
 
-  class stringHelper {
-    constructor() {
-      this.value = '';
-      this.inputField = document.querySelector('#inputValue')
-      this.inputField.addEventListener('input', e => this.inputValue(e));
-      this.upperFirstLetter = (str) => {
-        const words = [];
-        for (let word of str.split(' ')){
-        words.push(word[0].toUpperCase() + word.slice(1).toLowerCase())
-       }
-        return words.join(' ');
-      }
-      this.createHashtag = (str) => {
-        const words = [];
-        for (let word of str.split(' ')){
-        words.push(word[0].toUpperCase() + word.slice(1).toLowerCase())
-       }
-        return '#'+ words[0][0].toLowerCase() + words.join('').slice(1)
-      }
-    }
 
-    inputValue(e){
-     document.querySelector('#lowercase').innerText = this.lowerCase(e.target.value).value;  
-     document.querySelector('#uppercase').innerText = this.upperLetter(e.target.value).value;  
-     document.querySelector('#upperall').innerText = this.allUpperCase(e.target.value).value;  
-     document.querySelector('#reverse').innerText = this.reverseString(e.target.value).value;  
-     document.querySelector('#hashtag').innerText = this.hashTag(e.target.value).value;  
-   }
+class StringHelper {
+    constructor(value){
+        this.value = value;
+    }
     lowerCase(value) {
-       this.value = value.toLowerCase();
+        this.value = value.toLowerCase();
+        return this;
+     }
+     allUpperCase(value) {
+       this.value = value.toUpperCase();  
        return this;
-    }
-    allUpperCase(value) {
-      this.value = value.toUpperCase();  
-      return this;
-    }
-    reverseString(value){
-        this.value = value.split('').reverse().join('');
+     }
+     reverseString(value){
+         this.value = value.split('').reverse().join('');
+         return this;
+     }
+     hashTag(value){
+        const words = [];
+        for (let word of value.split(' ')){
+        words.push(word[0].toUpperCase() + word.slice(1).toLowerCase())
+        }
+        this.value = '#'+ words[0][0].toLowerCase() + words.join('').slice(1)
         return this;
-    }
-    hashTag(value){
-        this.value = this.createHashtag(value);
+     }
+     upperLetter(value){
+        const words = [];
+        for (let word of value.split(' ')){
+        words.push(word[0].toUpperCase() + word.slice(1).toLowerCase())
+        }
+        this.value =  words.join(' ');
         return this;
-    }
-    upperLetter(value){
-        this.value = this.upperFirstLetter(value);
-        return this;
-    }
-    resetMethod(){
-        this.value = "";
-        return this;
-    }
-    process(value){
-        !this.value ? null : this.value = value;
-        return this;
-    }
-    
-  }
-  
-  a = new stringHelper()
+     }
+     resetMethod(){
+         this.value = "";
+         return this;
+     }
+     process(value){
+         !this.value ? null : this.value = value;
+         return this;
+     }
+}
+const a = new StringHelper()
+console.log(a.hashTag('welcome').upperLetter('to').process('my').resetMethod().reverseString('github').value)
+
+document.querySelector('#inputValue').addEventListener('input', (e)=>{
+    const value = e.target.value;
+    const b = new StringHelper(value);
+    document.querySelector('#lowercase').innerText = b.lowerCase(value).value;  
+    document.querySelector('#uppercase').innerText = b.upperLetter(value).value;
+    document.querySelector('#upperall').innerText = b.allUpperCase(value).value;  
+    document.querySelector('#hashtag').innerText = b.hashTag(value).value;  
+    document.querySelector('#reverse').innerText = b.reverseString(value).value;  
+})
+
